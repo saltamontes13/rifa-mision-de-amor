@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rifa a Beneficio: Una Misión de Amor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .title-font {
+            font-family: 'Playfair Display', serif;
+        }
+        /* Estilo para los números seleccionados por el usuario */
+        .number-selected {
+            background-color: #3b82f6 !important; /* Azul Intenso */
+            color: white !important;
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        /* Estilo para los números ya vendidos */
+        .number-taken {
+            background-color: #ef4444 !important; /* Rojo Intenso */
+            color: white !important;
+            cursor: not-allowed;
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+        .number-item {
+            transition: all 0.2s ease-in-out;
+        }
+        /* Animación para el botón de Gemini */
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(236, 72, 153, 0);
+            }
+        }
+        .animate-pulse-custom {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+        
+        <header class="text-center mb-8 p-6 bg-white rounded-xl shadow-lg">
+            <h1 class="title-font text-4xl md:text-5xl text-pink-500">Rifa a Beneficio</h1>
+            <h2 class="text-2xl md:text-3xl text-gray-700 mt-2">"Una Misión de Amor"</h2>
+            <p class="mt-4 text-gray-600">¡Participa y apóyanos en este viaje tan importante!</p>
+        </header>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="font-bold text-xl text-pink-500 mb-3">El Premio</h3>
+                <img src="https://placehold.co/600x400/fbcfe8/4a044e?text=Espejo+LED+TOUCH" alt="Imagen de un espejo LED" class="rounded-lg mb-4 w-full">
+                <p class="font-semibold text-lg">Espejo LED TOUCH de 160x50 cm</p>
+                <ul class="list-disc list-inside mt-2 text-gray-600">
+                    <li>3 niveles de intensidad de luz.</li>
+                    <li>Diseño moderno y elegante.</li>
+                </ul>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-center">
+                 <h3 class="font-bold text-xl text-pink-500 mb-3">Detalles de la Rifa</h3>
+                 <p class="text-4xl font-bold text-gray-800 mb-4">$1.000 <span class="text-lg font-normal">CLP por número</span></p>
+                 <p class="text-lg text-gray-600 mb-4">¡Son 100 números! Elige tus favoritos o deja que la suerte te inspire.</p>
+                 <div class="bg-pink-100 border-l-4 border-pink-500 text-pink-700 p-4 rounded-md" role="alert">
+                    <p class="font-bold">Instrucciones:</p>
+                    <p>1. Selecciona los números que quieras.</p>
+                    <p>2. O presiona el botón ✨ para recibir ayuda.</p>
+                    <p>3. Confirma con el botón de WhatsApp.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8">
+            <h3 class="font-bold text-2xl text-center text-pink-500 mb-4">Selecciona tus Números</h3>
+            
+             <!-- Nuevo Botón de Gemini -->
+            <div class="text-center mb-6">
+                <button id="gemini-button" class="bg-pink-500 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-pink-600 transform hover:scale-105 transition-all duration-300 ease-in-out disabled:bg-gray-400 disabled:cursor-wait animate-pulse-custom">
+                    ✨ ¡Inspírame con números de la suerte! ✨
+                </button>
+                <p id="gemini-status" class="text-sm text-gray-500 mt-2 h-4"></p>
+            </div>
+
+            <div class="flex justify-center flex-wrap gap-4 mb-6 text-sm">
+                <div class="flex items-center"><span class="w-4 h-4 rounded-full bg-pink-100 mr-2 border border-pink-300"></span>Disponibles</div>
+                <div class="flex items-center"><span class="w-4 h-4 rounded-full bg-blue-500 mr-2"></span>Seleccionados</div>
+                <div class="flex items-center"><span class="w-4 h-4 rounded-full bg-red-500 mr-2"></span>Vendidos</div>
+            </div>
+
+            <div id="raffle-numbers" class="grid grid-cols-5 sm:grid-cols-10 gap-2 md:gap-3">
+                <!-- Los números se generarán aquí con JavaScript -->
+            </div>
+        </div>
+
+        <div id="action-button-container" class="text-center sticky bottom-4">
+            <button id="whatsapp-button" class="bg-green-500 text-white font-bold py-4 px-8 rounded-full shadow-lg hover:bg-green-600 transform hover:scale-105 transition-all duration-300 ease-in-out disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none" disabled>
+                Selecciona al menos un número
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const numbersContainer = document.getElementById('raffle-numbers');
+            const whatsappButton = document.getElementById('whatsapp-button');
+            const geminiButton = document.getElementById('gemini-button');
+            const geminiStatus = document.getElementById('gemini-status');
+            
+            const phoneNumber = '56986917470';
+            let selectedNumbers = [];
+            const allNumbers = Array.from({ length: 100 }, (_, i) => i + 1);
+            
+            // ===================================================================
+            // EDITAR NÚMEROS VENDIDOS AQUÍ
+            // ===================================================================
+            const takenNumbers = [7, 15, 22, 48, 73, 99, 1, 10, 25, 50, 88]; 
+
+            // Función para generar los números en la cuadrícula
+            function createNumberGrid() {
+                numbersContainer.innerHTML = ''; // Limpiar la grilla antes de crearla
+                for (let i = 1; i <= 100; i++) {
+                    const numberEl = document.createElement('div');
+                    numberEl.textContent = i;
+                    numberEl.dataset.number = i;
+                    
+                    let baseClasses = 'number-item flex items-center justify-center h-12 md:h-14 rounded-lg font-bold text-lg transition-all duration-200';
+                    
+                    if (takenNumbers.includes(i)) {
+                        numberEl.className = `${baseClasses} number-taken`;
+                    } else {
+                        numberEl.className = `${baseClasses} bg-pink-100 text-pink-800 cursor-pointer hover:bg-pink-200`;
+                        numberEl.addEventListener('click', handleNumberClick);
+                    }
+                     if (selectedNumbers.includes(i)) {
+                        numberEl.classList.add('number-selected');
+                    }
+                    
+                    numbersContainer.appendChild(numberEl);
+                }
+            }
+
+            // Función que se ejecuta al hacer clic en un número
+            function handleNumberClick(event) {
+                const numberDiv = event.target;
+                const number = parseInt(numberDiv.dataset.number, 10);
+                if (numberDiv.classList.contains('number-taken')) return;
+
+                toggleNumberSelection(number, numberDiv);
+            }
+
+            // Activa o desactiva la selección de un número
+            function toggleNumberSelection(number, numberDivElement = null) {
+                const numberDiv = numberDivElement || document.querySelector(`[data-number='${number}']`);
+                if (!numberDiv) return;
+
+                const index = selectedNumbers.indexOf(number);
+                
+                if (index > -1) {
+                    selectedNumbers.splice(index, 1);
+                    numberDiv.classList.remove('number-selected');
+                } else {
+                    selectedNumbers.push(number);
+                    numberDiv.classList.add('number-selected');
+                }
+                updateWhatsappButton();
+            }
+
+            // Función para actualizar el estado y texto del botón de WhatsApp
+            function updateWhatsappButton() {
+                if (selectedNumbers.length > 0) {
+                    whatsappButton.disabled = false;
+                    const plural = selectedNumbers.length > 1 ? 's' : '';
+                    whatsappButton.textContent = `¡Quiero mi${plural} ${selectedNumbers.length} número${plural}!`;
+                } else {
+                    whatsappButton.disabled = true;
+                    whatsappButton.textContent = 'Selecciona al menos un número';
+                }
+            }
+            
+            // --- FUNCIONALIDAD DE GEMINI ---
+
+            geminiButton.addEventListener('click', async () => {
+                geminiButton.disabled = true;
+                geminiStatus.textContent = 'Buscando inspiración... ✨';
+
+                try {
+                    const availableNumbers = allNumbers.filter(n => !takenNumbers.includes(n));
+                    if (availableNumbers.length < 3) {
+                         geminiStatus.textContent = 'Quedan muy pocos números.';
+                         return;
+                    }
+
+                    const prompt = `Eres un amuleto de la buena suerte. Para una rifa a beneficio de una noble causa llamada 'Una Misión de Amor', sugiere 3 números de la suerte. Los números deben ser elegidos únicamente de la siguiente lista de números disponibles: ${availableNumbers.join(', ')}. Responde solo con los 3 números, separados por comas (ejemplo: 12, 45, 88). No incluyas ninguna otra palabra o explicación.`;
+                    
+                    let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+                    const payload = { contents: chatHistory };
+                    const apiKey = ""; // La API key se gestiona por el entorno de ejecución
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Error de red: ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        
+                        const text = result.candidates[0].content.parts[0].text;
+                        const suggestedNumbers = text.split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n) && availableNumbers.includes(n));
+                        
+                        if(suggestedNumbers.length > 0) {
+                            // Limpiar selección anterior y seleccionar los nuevos
+                            selectedNumbers = [];
+                            createNumberGrid(); // Redibuja para quitar selecciones viejas
+                            
+                            suggestedNumbers.slice(0, 3).forEach(num => {
+                                toggleNumberSelection(num);
+                            });
+                            geminiStatus.textContent = '¡Estos números tienen buena energía!';
+                        } else {
+                           throw new Error("No se pudieron obtener números válidos.");
+                        }
+                    } else {
+                       throw new Error("Respuesta inesperada de la API.");
+                    }
+                } catch (error) {
+                    console.error('Error con Gemini:', error);
+                    geminiStatus.textContent = 'No pudimos consultar la inspiración. Intenta de nuevo.';
+                } finally {
+                    geminiButton.disabled = false;
+                     setTimeout(() => { geminiStatus.textContent = ''; }, 4000);
+                }
+            });
+
+
+            // Añadir evento al botón de WhatsApp
+            whatsappButton.addEventListener('click', function() {
+                if (selectedNumbers.length === 0) return;
+                selectedNumbers.sort((a, b) => a - b);
+                const numbersText = selectedNumbers.join(', ');
+                const message = `¡Hola! Quiero participar en la rifa "Una Misión de Amor". Por favor, resérvame estos números: *${numbersText}*. ¿Me podrías indicar los medios de pago, por favor? ¡Muchas gracias!`;
+                const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+                window.location.href = whatsappUrl;
+            });
+
+            // Iniciar la aplicación
+            createNumberGrid();
+        });
+    </script>
+</body>
+</html>
