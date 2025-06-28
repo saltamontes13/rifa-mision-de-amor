@@ -11,29 +11,37 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
         }
         .title-font {
             font-family: 'Playfair Display', serif;
         }
-        /* Estilo para los números seleccionados por el usuario */
-        .number-selected {
-            background-color: #3b82f6 !important; /* Azul Intenso */
-            color: white !important;
-            transform: scale(1.1);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        /* Estilo para los números ya vendidos */
-        .number-taken {
-            background-color: #ef4444 !important; /* Rojo Intenso */
-            color: white !important;
-            cursor: not-allowed;
-            text-decoration: line-through;
-            opacity: 0.7;
-        }
+        /* ---- Estilos de los Números ---- */
         .number-item {
             transition: all 0.2s ease-in-out;
         }
-        /* Animación para el botón de Gemini */
+        .number-selected {
+            background-color: #3b82f6 !important; /* Azul Intenso */
+            color: white !important;
+            transform: scale(1.15);
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.5);
+        }
+        .number-taken {
+            background-color: #ef4444 !important; /* Rojo Intenso */
+            color: #fca5a5 !important;
+            cursor: not-allowed;
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        /* ---- Animaciones ---- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.7s ease-out forwards;
+        }
+        /* Animación para el botón de inspiración */
         @keyframes pulse {
             0%, 100% {
                 transform: scale(1);
@@ -41,11 +49,15 @@
             }
             50% {
                 transform: scale(1.05);
-                box-shadow: 0 0 0 10px rgba(236, 72, 153, 0);
+                box-shadow: 0 0 0 12px rgba(236, 72, 153, 0);
             }
         }
         .animate-pulse-custom {
-            animation: pulse 2s infinite;
+            animation: pulse 2.5s infinite;
+        }
+        /* Para asegurar que los elementos animados empiecen ocultos */
+        .fade-in-on-load {
+            opacity: 0;
         }
     </style>
 </head>
@@ -53,46 +65,52 @@
 
     <div class="container mx-auto p-4 md:p-8 max-w-4xl">
         
-        <header class="text-center mb-8 p-6 bg-white rounded-xl shadow-lg">
+        <header class="text-center mb-8 p-6 bg-white rounded-xl shadow-lg fade-in-on-load">
             <h1 class="title-font text-4xl md:text-5xl text-pink-500">Rifa a Beneficio</h1>
-            <h2 class="text-2xl md:text-3xl text-gray-700 mt-2">"Una Misión de Amor💖"</h2>
-            <p class="mt-4 text-gray-600">¡Participa y apóyanos en este viaje tan importante!</p>
+            <h2 class="text-2xl md:text-3xl text-gray-700 mt-2">"Una Misión de Amor 💖"</h2>
+            <p class="mt-4 text-gray-600 text-lg">Tu apoyo es fundamental para que Esmeralda y su tía puedan viajar a Venezuela. ¡Cada número es una esperanza!</p>
         </header>
 
         <div class="grid md:grid-cols-2 gap-8 mb-8">
-            <div class="bg-white rounded-xl shadow-lg p-6">
+            <!-- Columna del Premio -->
+            <div class="bg-white rounded-xl shadow-lg p-6 fade-in-on-load" style="animation-delay: 150ms;">
                 <h3 class="font-bold text-2xl text-pink-500 mb-3">El Premio 🎁</h3>
-                <img src="https://placehold.co/600x400/fbcfe8/4a044e?text=Espejo+LED+TOUCH" alt="Imagen de un espejo LED" class="rounded-lg mb-4 w-full">
+                <!-- IMAGEN REAL DEL ESPEJO -->
+                <!-- Asegúrate de que el archivo 'espejo-rifa.jpg' esté en la misma carpeta que este archivo HTML -->
+                <img src="espejo-rifa.jpg" alt="[Imagen de un espejo LED de cuerpo completo con estantes adyacentes, iluminado con luz cálida en un ambiente hogareño.]" class="rounded-lg mb-4 w-full h-auto object-cover aspect-video">
                 <p class="font-semibold text-lg">Espejo LED TOUCH de 160x50 cm</p>
-                <ul class="list-disc list-inside mt-2 text-gray-600">
-                    <li>3 niveles de intensidad de luz(fría, cálida y neutra)</li>
-                    <li>Touch inteligente (enciende y ajusta al tacto)</li>
-                    <li>Formato piso o pared (2 en 1)</li>
-                    <li>Diseño moderno y elegante.</li>
+                <ul class="list-disc list-inside mt-2 text-gray-600 space-y-1">
+                    <li>3 tonos de luz: fría, cálida y neutra.</li>
+                    <li>Control táctil inteligente para encendido y ajuste.</li>
+                    <li>Versátil: puede usarse de pie o montado en la pared.</li>
+                    <li>Diseño moderno que embellece cualquier espacio.</li>
                 </ul>
             </div>
-            <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-center">
+            <!-- Columna de Detalles de la Rifa -->
+            <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-center fade-in-on-load" style="animation-delay: 300ms;">
                  <h3 class="font-bold text-2xl text-pink-500 mb-3">Detalles de la Rifa</h3>
                  <p class="text-4xl font-bold text-gray-800 mb-4">$1.000 <span class="text-lg font-normal">CLP por número</span></p>
-                 <p class="text-lg text-gray-600 mb-4">¡Son 100 números! Elige tus favoritos o deja que la suerte te inspire.</p>
+                 <p class="text-lg text-gray-600 mb-4">¡Son 100 números para ganar! Elige tus favoritos o deja que la suerte te sorprenda.</p>
                  <div class="bg-pink-100 border-l-4 border-pink-500 text-pink-700 p-4 rounded-md" role="alert">
-                    <p class="font-bold">Instrucciones:</p>
-                    <p>1. Selecciona los números que quieras.</p>
-                    <p>2. O presiona el botón ✨ para recibir ayuda del destino.</p>
-                    <p>3. Confirma con el botón que te lleva a WhatsApp.</p>
+                    <p class="font-bold">¿Cómo participar?</p>
+                    <ol class="list-decimal list-inside ml-4">
+                        <li>Selecciona los números que desees.</li>
+                        <li>Usa el botón ✨ para una selección al azar.</li>
+                        <li>Confirma tu compra por WhatsApp.</li>
+                    </ol>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8">
-            <h3 class="font-bold text-2xl text-center text-pink-500 mb-4">Selecciona tus Números</h3>
+        <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8 fade-in-on-load" style="animation-delay: 450ms;">
+            <h3 class="font-bold text-2xl text-center text-pink-500 mb-4">Selecciona tus Números de la Suerte</h3>
             
-             <!-- Nuevo Botón de Gemini -->
+            <!-- Botón de selección aleatoria (antes Gemini) -->
             <div class="text-center mb-6">
-                <button id="gemini-button" class="bg-pink-500 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-pink-600 transform hover:scale-105 transition-all duration-300 ease-in-out disabled:bg-gray-400 disabled:cursor-wait animate-pulse-custom">
+                <button id="random-button" class="bg-pink-500 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-pink-600 transform hover:scale-105 transition-all duration-300 ease-in-out disabled:bg-gray-400 disabled:cursor-wait animate-pulse-custom">
                     ✨ ¡Inspírame con números de la suerte! ✨
                 </button>
-                <p id="gemini-status" class="text-sm text-gray-500 mt-2 h-4"></p>
+                <p id="random-status" class="text-sm text-gray-500 mt-2 h-4"></p>
             </div>
 
             <div class="flex justify-center flex-wrap gap-4 mb-6 text-sm">
@@ -106,8 +124,8 @@
             </div>
         </div>
 
-        <div id="action-button-container" class="text-center sticky bottom-4">
-            <button id="whatsapp-button" class="bg-green-500 text-white font-bold py-4 px-8 rounded-full shadow-lg hover:bg-green-600 transform hover:scale-105 transition-all duration-300 ease-in-out disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none" disabled>
+        <div id="action-button-container" class="text-center sticky bottom-4 z-10">
+            <button id="whatsapp-button" class="bg-green-500 text-white font-bold py-4 px-8 rounded-full shadow-2xl hover:bg-green-600 transform hover:scale-105 transition-all duration-300 ease-in-out disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none" disabled>
                 Selecciona al menos un número
             </button>
         </div>
@@ -115,23 +133,28 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // --- CONFIGURACIÓN INICIAL ---
             const numbersContainer = document.getElementById('raffle-numbers');
             const whatsappButton = document.getElementById('whatsapp-button');
-            const geminiButton = document.getElementById('gemini-button');
-            const geminiStatus = document.getElementById('gemini-status');
+            const randomButton = document.getElementById('random-button');
+            const randomStatus = document.getElementById('random-status');
             
-            const phoneNumber = '56986917470';
+            // Reemplaza este número con el WhatsApp de la persona que recibe los pagos
+            const phoneNumber = '56986917470'; 
             let selectedNumbers = [];
             const allNumbers = Array.from({ length: 100 }, (_, i) => i + 1);
             
             // ===================================================================
-            // EDITAR NÚMEROS VENDIDOS AQUÍ
+            // ¡IMPORTANTE! EDITA AQUÍ LOS NÚMEROS QUE YA SE VENDIERON
+            // Simplemente agrega los números vendidos dentro de los corchetes, separados por comas.
             // ===================================================================
             const takenNumbers = [7, 15, 22, 48, 73, 99, 1, 10, 25, 50, 88]; 
 
-            // Función para generar los números en la cuadrícula
+            // --- FUNCIONES PRINCIPALES ---
+
+            // Función para generar la cuadrícula de números
             function createNumberGrid() {
-                numbersContainer.innerHTML = ''; // Limpiar la grilla antes de crearla
+                numbersContainer.innerHTML = '';
                 for (let i = 1; i <= 100; i++) {
                     const numberEl = document.createElement('div');
                     numberEl.textContent = i;
@@ -142,7 +165,7 @@
                     if (takenNumbers.includes(i)) {
                         numberEl.className = `${baseClasses} number-taken`;
                     } else {
-                        numberEl.className = `${baseClasses} bg-pink-100 text-pink-800 cursor-pointer hover:bg-pink-200`;
+                        numberEl.className = `${baseClasses} bg-pink-100 text-pink-800 cursor-pointer hover:bg-pink-200 hover:scale-105`;
                         numberEl.addEventListener('click', handleNumberClick);
                     }
                      if (selectedNumbers.includes(i)) {
@@ -153,7 +176,7 @@
                 }
             }
 
-            // Función que se ejecuta al hacer clic en un número
+            // Maneja el clic en un número
             function handleNumberClick(event) {
                 const numberDiv = event.target;
                 const number = parseInt(numberDiv.dataset.number, 10);
@@ -162,10 +185,10 @@
                 toggleNumberSelection(number, numberDiv);
             }
 
-            // Activa o desactiva la selección de un número
+            // Alterna la selección de un número (selecciona/deselecciona)
             function toggleNumberSelection(number, numberDivElement = null) {
                 const numberDiv = numberDivElement || document.querySelector(`[data-number='${number}']`);
-                if (!numberDiv) return;
+                if (!numberDiv || numberDiv.classList.contains('number-taken')) return;
 
                 const index = selectedNumbers.indexOf(number);
                 
@@ -179,93 +202,83 @@
                 updateWhatsappButton();
             }
 
-            // Función para actualizar el estado y texto del botón de WhatsApp
+            // Actualiza el estado y texto del botón de WhatsApp
             function updateWhatsappButton() {
                 if (selectedNumbers.length > 0) {
                     whatsappButton.disabled = false;
-                    const plural = selectedNumbers.length > 1 ? 's' : '';
-                    whatsappButton.textContent = `¡Quiero mi${plural} ${selectedNumbers.length} número${plural}!`;
+                    const pluralS = selectedNumbers.length > 1 ? 's' : '';
+                    const pluralN = selectedNumbers.length > 1 ? 's' : '';
+                    whatsappButton.textContent = `¡Quiero mi${pluralS} ${selectedNumbers.length} número${pluralN}!`;
                 } else {
                     whatsappButton.disabled = true;
                     whatsappButton.textContent = 'Selecciona al menos un número';
                 }
             }
             
-            // --- FUNCIONALIDAD DE GEMINI ---
+            // --- NUEVA FUNCIONALIDAD DEL BOTÓN DE INSPIRACIÓN (SELECCIÓN ALEATORIA) ---
+            randomButton.addEventListener('click', () => {
+                randomButton.disabled = true;
+                randomStatus.textContent = 'Buscando inspiración... ✨';
 
-            geminiButton.addEventListener('click', async () => {
-                geminiButton.disabled = true;
-                geminiStatus.textContent = 'Buscando inspiración... ✨';
+                // Primero, deseleccionamos cualquier número que el usuario ya tuviera
+                selectedNumbers.forEach(num => {
+                    const numberDiv = document.querySelector(`[data-number='${num}']`);
+                    if (numberDiv) numberDiv.classList.remove('number-selected');
+                });
+                selectedNumbers = [];
 
-                try {
-                    const availableNumbers = allNumbers.filter(n => !takenNumbers.includes(n));
-                    if (availableNumbers.length < 3) {
-                         geminiStatus.textContent = 'Quedan muy pocos números.';
-                         return;
-                    }
-
-                    const prompt = `Eres un amuleto de la buena suerte. Para una rifa a beneficio de una noble causa llamada 'Una Misión de Amor', sugiere 3 números de la suerte. Los números deben ser elegidos únicamente de la siguiente lista de números disponibles: ${availableNumbers.join(', ')}. Responde solo con los 3 números, separados por comas (ejemplo: 12, 45, 88). No incluyas ninguna otra palabra o explicación.`;
-                    
-                    let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
-                    const payload = { contents: chatHistory };
-                    const apiKey = ""; // La API key se gestiona por el entorno de ejecución
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-                    
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`Error de red: ${response.statusText}`);
-                    }
-
-                    const result = await response.json();
-                    
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
-                        
-                        const text = result.candidates[0].content.parts[0].text;
-                        const suggestedNumbers = text.split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n) && availableNumbers.includes(n));
-                        
-                        if(suggestedNumbers.length > 0) {
-                            // Limpiar selección anterior y seleccionar los nuevos
-                            selectedNumbers = [];
-                            createNumberGrid(); // Redibuja para quitar selecciones viejas
-                            
-                            suggestedNumbers.slice(0, 3).forEach(num => {
-                                toggleNumberSelection(num);
-                            });
-                            geminiStatus.textContent = '¡Estos números tienen buena energía!';
-                        } else {
-                           throw new Error("No se pudieron obtener números válidos.");
-                        }
-                    } else {
-                       throw new Error("Respuesta inesperada de la API.");
-                    }
-                } catch (error) {
-                    console.error('Error con Gemini:', error);
-                    geminiStatus.textContent = 'No pudimos consultar la inspiración. Intenta de nuevo.';
-                } finally {
-                    geminiButton.disabled = false;
-                     setTimeout(() => { geminiStatus.textContent = ''; }, 4000);
+                // Obtenemos solo los números que están realmente disponibles
+                const availableNumbers = allNumbers.filter(n => !takenNumbers.includes(n));
+                
+                if (availableNumbers.length < 3) {
+                    randomStatus.textContent = 'Quedan muy pocos números para elegir.';
+                    randomButton.disabled = false;
+                    return;
                 }
+
+                // Algoritmo de Fisher-Yates para mezclar aleatoriamente los números disponibles
+                for (let i = availableNumbers.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [availableNumbers[i], availableNumbers[j]] = [availableNumbers[j], availableNumbers[i]];
+                }
+
+                // Seleccionamos los primeros 3 números de la lista ya mezclada
+                const suggestedNumbers = availableNumbers.slice(0, 3);
+                
+                // Aplicamos la selección visualmente
+                suggestedNumbers.forEach(num => {
+                    toggleNumberSelection(num);
+                });
+                
+                randomStatus.textContent = '¡Estos números tienen buena energía!';
+                
+                // Reactivamos el botón y limpiamos el mensaje después de unos segundos
+                setTimeout(() => {
+                    randomButton.disabled = false;
+                    randomStatus.textContent = '';
+                }, 3000);
             });
 
 
-            // Añadir evento al botón de WhatsApp
+            // --- EVENTO DEL BOTÓN DE WHATSAPP ---
             whatsappButton.addEventListener('click', function() {
                 if (selectedNumbers.length === 0) return;
                 selectedNumbers.sort((a, b) => a - b);
                 const numbersText = selectedNumbers.join(', ');
                 const message = `¡Hola! Quiero participar en la rifa "Una Misión de Amor". Por favor, resérvame estos números: *${numbersText}*. ¿Me podrías indicar los medios de pago, por favor? ¡Muchas gracias!`;
                 const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-                window.location.href = whatsappUrl;
+                window.open(whatsappUrl, '_blank');
+            });
+            
+            // --- INICIALIZACIÓN DE LA PÁGINA ---
+            // Aplica las animaciones de entrada
+            const fadeElements = document.querySelectorAll('.fade-in-on-load');
+            fadeElements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 150}ms`;
+                el.classList.add('fade-in');
             });
 
-            // Iniciar la aplicación
+            // Crea la grilla de números al cargar la página
             createNumberGrid();
         });
     </script>
